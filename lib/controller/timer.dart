@@ -24,7 +24,7 @@ class CountdownTimerState extends State<CountdownTimer> {
   @override
   void initState() {
     super.initState();
-    print("hi");
+
     getValueFromSharedPreferences();
     getValueFromSharedPreferences2();
     getValueFromSharedPreferences3();
@@ -105,7 +105,7 @@ class CountdownTimerState extends State<CountdownTimer> {
       child: Text(
         "$countdownValue",
         style: TextStyle(
-          fontSize: 100,
+          fontSize: 150,
           color: countdownValue < valueSHarRed
               ? Colors.red
               : countdownValue < valueSHarOrange
@@ -118,9 +118,9 @@ class CountdownTimerState extends State<CountdownTimer> {
 }
 
 class CountdownTimer2 extends StatefulWidget {
-  final bool isRunning;
+  //final bool isRunning;
 
-  CountdownTimer2({Key? key, required this.isRunning}) : super(key: key);
+  CountdownTimer2({Key? key }) : super(key: key);
 
   @override
   CountdownTimer2State createState() => CountdownTimer2State();
@@ -179,12 +179,12 @@ class CountdownTimer2State extends State<CountdownTimer2> {
     });
   }
 
-  void resetTimer() {
+  /*void resetTimer() {
     setState(() {
       countdownValue = 0;
       _controller.add(countdownValue);
     });
-  }
+  }*/
 
   String formatCountdown(int value) {
     int minutes = value ~/ 60;

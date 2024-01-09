@@ -146,12 +146,13 @@ class _SettingsPageState extends State<SettingsPage> {
         },
         items: [
           const BottomNavigationBarItem(
-            icon: Icon(Icons.abc_rounded), // Icon for the first tab
-            label: 'Tab 1',
+            icon: Icon(Icons.abc_rounded),
+            label: 'Settings',
           ),
           const BottomNavigationBarItem(
-            icon: Icon(Icons.ac_unit), // Icon for the second tab
-            label: 'Tab 2',
+            icon: Icon(Icons.ac_unit),
+            label: 'Your account',
+
           ),
         ],
       ),

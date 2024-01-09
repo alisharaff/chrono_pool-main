@@ -14,15 +14,15 @@ class _SuccessState extends State<Success> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [const Center(
-        child: Text("successed" , style: TextStyle(fontSize: 20),),
-      ),
-      MaterialButton(
-        textColor: Colors.white,
-        color: Colors.blue,
-        onPressed: () {
-          Navigator.of(context).pushNamedAndRemoveUntil("login", (route) => false);
-        } , child: const Text("Log in ")),
-      ],
+          child: Text("successed" , style: TextStyle(fontSize: 20),),
+        ),
+          MaterialButton(
+              textColor: Colors.white,
+              color: Colors.blue,
+              onPressed: () {
+                Navigator.of(context).pushNamedAndRemoveUntil("login", (route) => false);
+              } , child: const Text("Log in ")),
+        ],
       ),
     );
   }

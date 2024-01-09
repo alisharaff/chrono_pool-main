@@ -25,7 +25,7 @@ class _SignUpState extends State<SignUp> {
   TextEditingController username = TextEditingController();
 
   SignUp() async {
-   // if (formstate.currentState!.validate()) {
+    // if (formstate.currentState!.validate()) {
     setState(() {
       isLoading = true;
     });
@@ -55,65 +55,65 @@ class _SignUpState extends State<SignUp> {
       body: isLoading == true
           ? const Center(child: CircularProgressIndicator())
           : Container(
-              padding: const EdgeInsets.all(10),
-              child: ListView(
+        padding: const EdgeInsets.all(10),
+        child: ListView(
+          children: [
+            Form(
+              key: formstate,
+              child: Column(
                 children: [
-                  Form(
-                    key: formstate,
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          "assets/blackball.jpeg",
-                          width: 200,
-                          height: 200,
-                        ),
-                        CustomTextForm(
-                          valid: (val) {
-                            return  validInput(val!, 5, 40); // Return the validation message or null
+                  Image.asset(
+                    "images/blackball.jpeg",
+                    width: 200,
+                    height: 200,
+                  ),
+                  CustomTextForm(
+                    valid: (val) {
+                      return  validInput(val!, 5, 40); // Return the validation message or null
 
-                            //return  validInput(val!, 3, 20);
+                      //return  validInput(val!, 3, 20);
 
-                          },
-                          savecontroller: username,
-                          hint: "username",
-                        ),
-                        CustomTextForm(
-                          valid: (val) { 
-                            return validInput(val!, 5, 40);
-                          },
-                          savecontroller: email,
-                          hint: "email",
-                        ),
-                        CustomTextForm(
-                          valid: (val) {
-                            return validInput(val!, 3, 50);
-                          },
-                          savecontroller: password,
-                          hint: "password",
-                        ),
-                        MaterialButton(
-                          color: Colors.blue,
-                          textColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 70, vertical: 10),
-                          onPressed: () async {
-                            await SignUp();
-                          },
-                          child: const Text("SignUp"),
-                        ),
-                        Container(height: 10),
-                        InkWell(
-                          child: const Text("Login"),
-                          onTap: () {
-                            Navigator.of(context).pushNamed("login");
-                          },
-                        ),
-                      ],
-                    ),
+                    },
+                    savecontroller: username,
+                    hint: "username",
+                  ),
+                  CustomTextForm(
+                    valid: (val) {
+                      return validInput(val!, 5, 40);
+                    },
+                    savecontroller: email,
+                    hint: "email",
+                  ),
+                  CustomTextForm(
+                    valid: (val) {
+                      return validInput(val!, 3, 50);
+                    },
+                    savecontroller: password,
+                    hint: "password",
+                  ),
+                  MaterialButton(
+                    color: Colors.blue,
+                    textColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 70, vertical: 10),
+                    onPressed: () async {
+                      await SignUp();
+                    },
+                    child: const Text("SignUp"),
+                  ),
+                  Container(height: 10),
+                  InkWell(
+                    child: const Text("Login"),
+                    onTap: () {
+                      Navigator.of(context).pushNamed("login");
+                    },
                   ),
                 ],
               ),
             ),
+          ],
+        ),
+      ),
     );
   }
 }

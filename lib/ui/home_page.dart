@@ -136,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   if (isTimerRunning) {
                     isTimerRunning = false;
                     countdownKey.currentState?.stopTimer();
-                    countdownKey2.currentState?.stopTimer();
+                    //countdownKey2.currentState?.stopTimer();
                   } else {
                     isTimerRunning = true;
                     countdownKey.currentState?.startTimer();
@@ -158,10 +158,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("${getLang(context, "time_minute")}: ",
+                        Text("${getLang(context, "match_time")}: ",
                             style: const TextStyle(color: Colors.white)),
                         CountdownTimer2(
-                            key: countdownKey2, isRunning: isTimerRunning),
+                            key: countdownKey2),
                       ],
                     ),
                     CountdownTimer(

@@ -1,12 +1,12 @@
-import 'package:chrono_pool/components/crud.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 
+import '../components/crud.dart';
 import '../components/valid.dart';
 import '../constants/linksApi.dart';
 import '../decoration/custom_text_form.dart';
-late SharedPreferences sharedPref ;
+import '../main.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -31,7 +31,7 @@ class _LoginState extends State<Login> {
 
     var response = await _crud.postRequest(
         linkLogin, {"email": email.text,
-                    "password": password.text});
+      "password": password.text});
 
     isLoading = false;
     setState(() {});
@@ -57,11 +57,11 @@ class _LoginState extends State<Login> {
 
       Navigator.of(context).pushNamedAndRemoveUntil("home", (route) => false);
     } else {
-      // AwesomeDialog(
-      //     context: context,
-      //     title: "Attention!",
-      //     body: const Text("Your email or password aren't correct!"))
-      //   .show();
+      AwesomeDialog(
+          context: context,
+          title: "Attention!",
+          body: const Text("Your email or password aren't correct!"))
+          .show();
     }
   }
 
@@ -72,55 +72,55 @@ class _LoginState extends State<Login> {
         padding: const EdgeInsets.all(10),
         child: isLoading == true
             ? const Center(
-                child: CircularProgressIndicator(),
-              )
+          child: CircularProgressIndicator(),
+        )
             : ListView(
+          children: [
+            Form(
+              key: formstate,
+              child: Column(
                 children: [
-                  Form(
-                    key: formstate,
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          "assets/blackball.jpeg",
-                          width: 200,
-                          height: 200,
-                        ),
-                        CustomTextForm(
-                          valid: (val) {
-                            return validInput(val!, 5, 40);
-                          },
-                          savecontroller: email,
-                          hint: "email",
-                        ),
-                        CustomTextForm(
-                          valid: (val) {
-                            return validInput(val!, 3, 50);
-                          },
-                          savecontroller: password,
-                          hint: "password",
-                        ),
-                        MaterialButton(
-                          color: Colors.blue,
-                          textColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 70, vertical: 10),
-                          onPressed: () async {
-                            await login();
-                          },
-                          child: const Text("login"),
-                        ),
-                        Container(height: 10),
-                        InkWell(
-                          child: const Text("Sign up"),
-                          onTap: () {
-                            Navigator.of(context).pushNamed("signup");
-                          },
-                        ),
-                      ],
-                    ),
+                  Image.asset(
+                    "assets/images/blackball.jpeg",
+                    width: 200,
+                    height: 200,
+                  ),
+                  CustomTextForm(
+                    valid: (val) {
+                      return validInput(val!, 5, 40);
+                    },
+                    savecontroller: email,
+                    hint: "email",
+                  ),
+                  CustomTextForm(
+                    valid: (val) {
+                      return validInput(val!, 3, 50);
+                    },
+                    savecontroller: password,
+                    hint: "password",
+                  ),
+                  MaterialButton(
+                    color: Colors.blue,
+                    textColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 70, vertical: 10),
+                    onPressed: () async {
+                      await login();
+                    },
+                    child: const Text("login"),
+                  ),
+                  Container(height: 10),
+                  InkWell(
+                    child: const Text("Sign up"),
+                    onTap: () {
+                      Navigator.of(context).pushNamed("signup");
+                    },
                   ),
                 ],
               ),
+            ),
+          ],
+        ),
       ),
     );
   }
