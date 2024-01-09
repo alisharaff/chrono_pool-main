@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Score extends ChangeNotifier{
+class Score extends ChangeNotifier {
   String _player1Name = "Player 1";
   String _player2Name = "Player 2";
   int _player1Score = 0;
@@ -8,29 +8,36 @@ class Score extends ChangeNotifier{
 
   Score();
 
-
   incScorePlayer1() {
     _player1Score++;
     notifyListeners();
   }
+
   decScorePlayer1() {
-    _player1Score--;
+    if (_player1Score > 0) {
+      _player1Score--;
+    }
     notifyListeners();
   }
 
-  resetScorePlayer1(){
+  resetScorePlayer1() {
     _player1Score = 0;
     notifyListeners();
   }
+
   incScorePlayer2() {
     _player2Score++;
     notifyListeners();
   }
+
   decScorePlayer2() {
-    _player2Score--;
+    if (_player2Score > 0) {
+      _player2Score--;
+    }
     notifyListeners();
   }
-  resetScorePlayer2(){
+
+  resetScorePlayer2() {
     _player2Score = 0;
     notifyListeners();
   }
@@ -41,7 +48,6 @@ class Score extends ChangeNotifier{
   set player2Name(String value) {
     _player2Name = value;
     notifyListeners();
-
   }
 
   String get player1Name => _player1Name;
@@ -53,5 +59,4 @@ class Score extends ChangeNotifier{
 
   int get player2Score => _player2Score;
   int get player1Score => _player1Score;
-
 }

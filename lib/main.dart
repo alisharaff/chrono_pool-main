@@ -27,11 +27,9 @@ import 'notes/edit.dart';
 // Note: You might need to adjust this based on your specific use case
 // If you have web-specific code using 'dart:js_interop_unsafe', consider conditionalizing it as well
 
-late SharedPreferences sharedPref ;
+late SharedPreferences sharedPref;
 
 void main() => runApp(MyApp());
-
-
 
 class MyApp extends StatelessWidget {
   @override
@@ -48,18 +46,17 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
           useMaterial3: true,
         ),
-        home: const Login(),
-            //title:
-             //   "CHRONO 8 POOL"), //const Login(),// const
+        home: const MyHomePage(title: "CHRONO 8 POOL"),
+        //title:
+        //   "CHRONO 8 POOL"), //const Login(),// const
         //   MyHomePage(title: "CHRONO 8 POOL"),,
         routes: {
           "home": (context) => const MyHomePage(title: "CHRONO 8 POOL"),
           "login": (context) => const Login(),
           "signup": (context) => const SignUp(),
           "success": (context) => const Success(),
-          "addnote" : (context) => const AddNote(),
-          "editnote" : (context) =>  const EditNote(),
-
+          "addnote": (context) => const AddNote(),
+          "editnote": (context) => const EditNote(),
           '/Settings': (context) => ChangeNotifierProvider(
               create: (BuildContext context) => SettingsController(),
               child: SettingsPage(title: "Chrono 8 Pool")),

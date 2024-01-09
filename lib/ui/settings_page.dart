@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:chrono_pool/auth/login.dart';
 import 'package:chrono_pool/ui/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -53,90 +54,99 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Consumer<SettingsController>(builder: (context, set, oldWidget) {
-          return Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: EditPlayerName(),
-              ),
-              Card(
-                child: Column(
+      body: _currentIndex == 0
+          ? SingleChildScrollView(
+              child: Consumer<SettingsController>(
+                  builder: (context, set, oldWidget) {
+                return Column(
                   children: [
-                    Text("Score",
-                        style: Theme.of(context).textTheme.displaySmall),
-                    buildScoreRow(
-                        PlayerNumber.UN, "${getLang(context, "player1")}", set),
-                    buildScoreRow(PlayerNumber.DEUX,
-                        "${getLang(context, "player2")}", set),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text("${getLang(context, "time_seconds")}",
-                          style: Theme.of(context).textTheme.displaySmall),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: EditPlayerName(),
+                    ),
+                    Card(
+                      child: Column(
                         children: [
-                          RowSetting(
-                              DataType.ORANGE_ALARM, set, "orange_alarm"),
-                          RowSetting(DataType.RED_ALARM, set, "red_alarm"),
-                          RowSetting(DataType.LAST_ALARM, set, "last_alarm"),
-                          RowSetting(DataType.EXTENTION, set, "extention"),
+                          Text("Score",
+                              style: Theme.of(context).textTheme.displaySmall),
+                          buildScoreRow(PlayerNumber.UN,
+                              "${getLang(context, "player1")}", set),
+                          buildScoreRow(PlayerNumber.DEUX,
+                              "${getLang(context, "player2")}", set),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-              ),
-              Card(
-                child: Column(
-                  children: [
-                    Text("${getLang(context, "time_minute")}",
-                        style: Theme.of(context).textTheme.displaySmall),
-                    RowSetting(DataType.MATCH_TIME, set, "match_time"),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
-                  child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () => _pickImage(ImageSource.gallery),
-                          child: const Text('Choose a Photo'),
-                        ),
-                        FutureBuilder<Uint8List?>(
-                          future: _image?.readAsBytes(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData && snapshot.data != null) {
-                              return Image.memory(snapshot.data!);
-                            } else {
-                              return const CircularProgressIndicator();
-                            }
-                          },
-                        ),
-                      ],
                     ),
-                  ),
-                ),
-              ),
-            ],
-          );
-        }),
-      ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text("${getLang(context, "time_seconds")}",
+                                style:
+                                    Theme.of(context).textTheme.displaySmall),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                RowSetting(
+                                    DataType.ORANGE_ALARM, set, "orange_alarm"),
+                                RowSetting(
+                                    DataType.RED_ALARM, set, "red_alarm"),
+                                RowSetting(
+                                    DataType.LAST_ALARM, set, "last_alarm"),
+                                RowSetting(
+                                    DataType.EXTENTION, set, "extention"),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                    ),
+                    Card(
+                      child: Column(
+                        children: [
+                          Text("${getLang(context, "time_minute")}",
+                              style: Theme.of(context).textTheme.displaySmall),
+                          RowSetting(DataType.MATCH_TIME, set, "match_time"),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () =>
+                                    _pickImage(ImageSource.gallery),
+                                child: const Text('Choose a Photo'),
+                              ),
+                              FutureBuilder<Uint8List?>(
+                                future: _image?.readAsBytes(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData &&
+                                      snapshot.data != null) {
+                                    return Image.memory(snapshot.data!);
+                                  } else {
+                                    return const CircularProgressIndicator();
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              }),
+            )
+          : Login(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {
@@ -152,7 +162,6 @@ class _SettingsPageState extends State<SettingsPage> {
           const BottomNavigationBarItem(
             icon: Icon(Icons.ac_unit),
             label: 'Your account',
-
           ),
         ],
       ),

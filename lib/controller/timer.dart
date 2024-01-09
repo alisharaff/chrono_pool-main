@@ -24,7 +24,6 @@ class CountdownTimerState extends State<CountdownTimer> {
   @override
   void initState() {
     super.initState();
-
     getValueFromSharedPreferences();
     getValueFromSharedPreferences2();
     getValueFromSharedPreferences3();
@@ -89,7 +88,7 @@ class CountdownTimerState extends State<CountdownTimer> {
 
   void resetTimer() {
     setState(() {
-      countdownValue = 30;
+      countdownValue = valueSHarLast;
     });
   }
 
@@ -120,7 +119,7 @@ class CountdownTimerState extends State<CountdownTimer> {
 class CountdownTimer2 extends StatefulWidget {
   //final bool isRunning;
 
-  CountdownTimer2({Key? key }) : super(key: key);
+  CountdownTimer2({Key? key}) : super(key: key);
 
   @override
   CountdownTimer2State createState() => CountdownTimer2State();

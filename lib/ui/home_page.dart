@@ -26,6 +26,8 @@ class _MyHomePageState extends State<MyHomePage> {
       GlobalKey<CountdownTimer2State>();
 
   bool isTimerRunning = false;
+  bool isTimerRunningMinu = false;
+
   bool isFirstTap = true;
   int timeMinutes = 0;
   @override
@@ -33,6 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     getValueFromSharedPreferences2();
     isFirstTap = true;
+    isTimerRunningMinu = false;
   }
 
   Future<int> getStoredData(String key) async {
@@ -110,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   builder: (context, snapshot) {
                     String player1Name = snapshot.data ?? 'Player 1';
                     return Text(
-                      "$player1Name : ${context.watch<Score>().player1Score ?? 0}",
+                      "$player1Name  ${context.watch<Score>().player1Score ?? 0}",
                       style: Theme.of(context).textTheme.headlineSmall,
                     );
                   },
@@ -121,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   builder: (context, snapshot) {
                     String player2Name = snapshot.data ?? 'Player 2';
                     return Text(
-                      "$player2Name : ${context.watch<Score>().player2Score ?? 0}",
+                      "$player2Name  ${context.watch<Score>().player2Score ?? 0}",
                       style: Theme.of(context).textTheme.headlineSmall,
                     );
                   },
@@ -140,12 +143,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   } else {
                     isTimerRunning = true;
                     countdownKey.currentState?.startTimer();
+                  }
+                  if (isTimerRunningMinu == false) {
                     countdownKey2.currentState?.startTimer();
+                    isTimerRunningMinu = true;
                   }
                 });
               },
               onDoubleTap: () {
                 setState(() {
+                  isFirstTap = true;
                   isTimerRunning = false;
                   countdownKey.currentState?.resetTimer();
                 });
@@ -160,8 +167,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         Text("${getLang(context, "match_time")}: ",
                             style: const TextStyle(color: Colors.white)),
-                        CountdownTimer2(
-                            key: countdownKey2),
+                        CountdownTimer2(key: countdownKey2),
                       ],
                     ),
                     CountdownTimer(
