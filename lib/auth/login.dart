@@ -55,7 +55,7 @@ class _LoginState extends State<Login> {
         }
       }
 
-      Navigator.of(context).pushNamedAndRemoveUntil("home", (route) => false);
+      Navigator.of(context).pushNamedAndRemoveUntil("photo", (route) => false);
     } else {
       AwesomeDialog(
           context: context,

@@ -104,7 +104,7 @@ class CountdownTimerState extends State<CountdownTimer> {
       child: Text(
         "$countdownValue",
         style: TextStyle(
-          fontSize: 150,
+          fontSize: 250,
           color: countdownValue < valueSHarRed
               ? Colors.red
               : countdownValue < valueSHarOrange

@@ -4,6 +4,7 @@ import 'package:chrono_pool/components/applocal.dart';
 import 'package:chrono_pool/controller/settings_controller.dart';
 import 'package:chrono_pool/model/score.dart';
 import 'package:chrono_pool/ui/home_page.dart';
+import 'package:chrono_pool/ui/photo.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:chrono_pool/ui/settings_page.dart';
@@ -27,9 +28,14 @@ import 'notes/edit.dart';
 // Note: You might need to adjust this based on your specific use case
 // If you have web-specific code using 'dart:js_interop_unsafe', consider conditionalizing it as well
 
-late SharedPreferences sharedPref;
+late SharedPreferences sharedPref ;
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  sharedPref = await SharedPreferences.getInstance();
+
+  runApp( MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -57,6 +63,8 @@ class MyApp extends StatelessWidget {
           "success": (context) => const Success(),
           "addnote": (context) => const AddNote(),
           "editnote": (context) => const EditNote(),
+          "photo": (context) => const Photo(),
+
           '/Settings': (context) => ChangeNotifierProvider(
               create: (BuildContext context) => SettingsController(),
               child: SettingsPage(title: "Chrono 8 Pool")),

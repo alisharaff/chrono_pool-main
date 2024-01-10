@@ -8,14 +8,14 @@ import '../model/note.dart';
 import '../notes/edit.dart';
 
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class Photo extends StatefulWidget {
+  const Photo({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<Photo> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Photo> {
   final Crud _crud = Crud();
 
   getNote() async {
