@@ -50,7 +50,7 @@ class _AddNoteState extends State<AddNote> {
       isLoading = false;
       setState(() {});
       if (response['status'] == "success") {
-        Navigator.of(context).pushReplacementNamed("home");
+        Navigator.of(context).pushReplacementNamed("photo");
       } else {
         //
       }

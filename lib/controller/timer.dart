@@ -126,7 +126,7 @@ class CountdownTimer2 extends StatefulWidget {
 }
 
 class CountdownTimer2State extends State<CountdownTimer2> {
-  late Timer _timer;
+   Timer? _timer;
   int countdownValue = 2 * 60; // seconds
   late int valueSHarMInu;
   StreamController<int> _controller = StreamController<int>();
@@ -156,13 +156,13 @@ class CountdownTimer2State extends State<CountdownTimer2> {
 
   @override
   void dispose() {
-    _timer.cancel();
+    _timer?.cancel();
     _controller.close();
     super.dispose();
   }
 
   void stopTimer() {
-    _timer.cancel();
+    _timer?.cancel();
   }
 
   void startTimer() {

@@ -38,10 +38,19 @@ class Cards extends StatelessWidget {
               child: ListTile(
                 title: Text("${noteModel.noteTitle}"),
                 subtitle: Text("${noteModel.noteContent}"),
-                trailing: IconButton(
-                  icon: Icon(Icons.delete_forever,),
-                  onPressed: onDelete  ,
-                ) ,
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.delete_forever),
+                      onPressed: onDelete,
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.check_circle), // Replace 'another_icon' with the icon you want
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
