@@ -4,7 +4,7 @@ import 'package:chrono_pool/components/applocal.dart';
 import 'package:chrono_pool/controller/settings_controller.dart';
 import 'package:chrono_pool/model/score.dart';
 import 'package:chrono_pool/ui/home_page.dart';
-import 'package:chrono_pool/ui/photo.dart';
+import 'package:chrono_pool/auth/photo.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:chrono_pool/ui/settings_page.dart';
@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
           "editnote": (context) => const EditNote(),
           "photo": (context) => const Photo(),
 
-          '/Settings': (context) => ChangeNotifierProvider(
+          'Settings': (context) => ChangeNotifierProvider(
               create: (BuildContext context) => SettingsController(),
               child: SettingsPage(title: "Chrono 8 Pool")),
         },

@@ -6,6 +6,11 @@ import '../components/shared_pref_helper.dart';
 import '../controller/settings_controller.dart';
 import '../controller/timer.dart';
 import '../model/score.dart';
+import '../constants/globals.dart' as globals;
+import 'package:cast/cast.dart';
+
+import 'cast_screen.dart';
+
 
 class MyHomePage extends StatefulWidget {
   final String title;
@@ -20,22 +25,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  GlobalKey<CountdownTimerState> countdownKey =
+  GlobalKey<CountdownTimerState> countdownTimer =
       GlobalKey<CountdownTimerState>();
-  GlobalKey<CountdownTimer2State> countdownKey2 =
+  GlobalKey<CountdownTimer2State> countdownMatch =
       GlobalKey<CountdownTimer2State>();
 
   bool isTimerRunning = false;
-  bool isTimerRunningMinu = false;
+  bool isMatchRunning = false;
+  bool resetAll = false;
 
   bool isFirstTap = true;
   int timeMinutes = 0;
   @override
   void initState() {
     super.initState();
-    getValueFromSharedPreferences2();
+    getValueFromSharedPreferences();
     isFirstTap = true;
-    isTimerRunningMinu = false;
+    isTimerRunning = false;
   }
 
   Future<int> getStoredData(String key) async {
@@ -45,10 +51,13 @@ class _MyHomePageState extends State<MyHomePage> {
     return storedData;
   }
 
-  Future<void> getValueFromSharedPreferences2() async {
-    timeMinutes = await getStoredData(DataType.MATCH_TIME.name);
-    setState(() {});
-    print(timeMinutes);
+  Future<void> getValueFromSharedPreferences() async {
+    if (globals.resetMatchTime) {
+      timeMinutes = await getStoredData(DataType.MATCH_TIME.name);
+      setState(() {});
+      print(timeMinutes);
+      globals.resetMatchTime = false;
+    }
   }
 
   @override
@@ -61,12 +70,19 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.cast),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>   CastScreen()),
+              );
+
+
+            },
           ),
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
-              Navigator.of(context).pushNamed("/Settings");
+              Navigator.of(context).pushNamed("Settings");
             },
           )
         ],
@@ -85,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: InkWell(
                     onDoubleTap: isFirstTap
                         ? () {
-                            countdownKey.currentState?.updateTimerValue();
+                            countdownTimer.currentState?.updateTimerValue();
                             setState(() {
                               isFirstTap = false;
                             });
@@ -138,15 +154,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 setState(() {
                   if (isTimerRunning) {
                     isTimerRunning = false;
-                    countdownKey.currentState?.stopTimer();
-                    //countdownKey2.currentState?.stopTimer();
+                    countdownTimer.currentState?.stopTimer();
                   } else {
                     isTimerRunning = true;
-                    countdownKey.currentState?.startTimer();
+                    countdownTimer.currentState?.startTimer();
                   }
-                  if (isTimerRunningMinu == false) {
-                    countdownKey2.currentState?.startTimer();
-                    isTimerRunningMinu = true;
+                  if (isMatchRunning == false) {
+                    countdownMatch.currentState?.startTimer();
+                    isMatchRunning = true;
                   }
                 });
               },
@@ -154,7 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 setState(() {
                   isFirstTap = true;
                   isTimerRunning = false;
-                  countdownKey.currentState?.resetTimer();
+                  countdownTimer.currentState?.resetTimer();
                 });
               },
               child: Container(
@@ -167,20 +182,34 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         Text("${getLang(context, "match_time")}: ",
                             style: const TextStyle(color: Colors.white)),
-                        CountdownTimer2(key: countdownKey2),
+                        CountdownTimer2(key: countdownMatch),
                       ],
                     ),
                     CountdownTimer(
-                        key: countdownKey, isRunning: isTimerRunning),
+                        key: countdownTimer, isRunning: isTimerRunning),
                   ],
                 ),
               ),
             ),
           ),
-          Image.network(
-            'https://upload.wikimedia.org/wikipedia/fr/b/b2/Logo_Parcs_nationaux_de_France.png',
-            height: 150.0,
-          )
+          // SharedPreferencesHelper
+          FutureBuilder<String?>(
+            future: SharedPreferencesHelper.getImg(),
+            builder: (context, snapshot) {
+              String imgUrl = snapshot.data ??"";
+              return imgUrl != "" ?Container(
+                color: Colors.black,
+                width: MediaQuery.of(context).size.width,
+                child: Image.network(
+                imgUrl ,
+                  height: 150.0,
+                ),
+              ) : Container(
+                color: Colors.black,
+                  width: MediaQuery.of(context).size.width,
+                  child: Text(""));
+            },
+          ),
         ],
       ),
     );

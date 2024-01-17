@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:chrono_pool/main.dart';
+import '../components/applocal.dart';
 import '../components/crud.dart';
 import '../constants/linksApi.dart';
 import '../decoration/custom_text_form.dart';
@@ -33,8 +34,8 @@ class _AddNoteState extends State<AddNote> {
     if (myfile == null)
       return AwesomeDialog(
           context: context,
-          title: "important",
-          body: Text("please add the photo for this title"))
+          title: "${getLang(context, "important")}",
+          body: Text("${getLang(context, "please_add_the_photo")}"))
         ..show();
     if (formstate.currentState!.validate()) {
       isLoading = true;
@@ -61,7 +62,7 @@ class _AddNoteState extends State<AddNote> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Notes"),
+        title: Text("Add Photos"),
       ),
       body: isLoading == true
           ? Center(child: CircularProgressIndicator())
@@ -72,13 +73,13 @@ class _AddNoteState extends State<AddNote> {
           child: ListView(
             children: [
               CustomTextForm(
-                  hint: "title",
+                  hint: "${getLang(context, "title")}",
                   savecontroller: title,
                   valid: (val) {
                     //return validInput(val!, 1, 40);
                   }),
               CustomTextForm(
-                  hint: "content",
+                  hint: "${getLang(context, "content")}",
                   savecontroller: content,
                   valid: (val) {
                     // return validInput(val!, 1, 255);
@@ -95,7 +96,7 @@ class _AddNoteState extends State<AddNote> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text("Choose Image",
+                                child: Text("${getLang(context, "choose_image")}",
                                     style: TextStyle(fontSize: 25)),
                               ),
                               InkWell(
@@ -112,7 +113,7 @@ class _AddNoteState extends State<AddNote> {
                                   width: double.infinity,
                                   padding: EdgeInsets.all(10),
                                   child: Text(
-                                    "From Gallery",
+                                    "${getLang(context, "from_gallery")}",
                                     style: TextStyle(fontSize: 20),
                                   ),
                                 ),
@@ -132,7 +133,7 @@ class _AddNoteState extends State<AddNote> {
                                   width: double.infinity,
                                   padding: EdgeInsets.all(10),
                                   child: Text(
-                                    "From Camera",
+                                    "${getLang(context, "from_camera")}",
                                     style: TextStyle(fontSize: 20),
                                   ),
                                 ),
@@ -140,7 +141,7 @@ class _AddNoteState extends State<AddNote> {
                             ],
                           )));
                 },
-                child: Text("Choose Image"),
+                child: Text("${getLang(context, "choose_image")}"),
                 textColor: Colors.white,
                 color: myfile == null ? Colors.blue : Colors.green,
               ),
@@ -149,7 +150,7 @@ class _AddNoteState extends State<AddNote> {
                 onPressed: () async {
                   await addNotes();
                 },
-                child: Text("Add"),
+                child: Text("${getLang(context, "add")}"),
                 textColor: Colors.white,
                 color: Colors.blue,
               )

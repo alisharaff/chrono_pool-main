@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import '../constants/globals.dart' as globals;
 enum DataType {
   PLAYER_1,
   PLAYER_2,
@@ -10,6 +10,10 @@ enum DataType {
   EXTENTION,
   MATCH_TIME,
 }
+
+
+
+
 
 class SettingsController with ChangeNotifier {
   Future<String> playerButtonMinus(String value, String key) async {
@@ -43,16 +47,20 @@ class SettingsController with ChangeNotifier {
     return sharedprefrences.getInt(type.name) ?? 0;
   }
 
-  Future<int> incType(DataType type) async {
+  Future<int> incType(DataType type , bool resetMatchTime) async {
+    globals.resetMatchTime = resetMatchTime ;
     SharedPreferences sharedprefrences = await SharedPreferences.getInstance();
     var storedData = await getData(type);
     storedData++;
     await sharedprefrences.setInt(type.name, storedData);
+    print(type.name);
+
     notifyListeners();
     return storedData;
   }
 
-  Future<int> decType(DataType type) async {
+  Future<int> decType(DataType type , bool resetMatchTime) async {
+    globals.resetMatchTime = resetMatchTime ;
     SharedPreferences sharedprefrences = await SharedPreferences.getInstance();
     var storedData = await getData(type);
     if (storedData > 0) {

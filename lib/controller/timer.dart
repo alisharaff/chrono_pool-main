@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vibration/vibration.dart';
 
 import 'settings_controller.dart';
 
@@ -80,6 +81,16 @@ class CountdownTimerState extends State<CountdownTimer> {
         setState(() {
           countdownValue--;
         });
+        if (countdownValue == valueSHarRed) {
+          _vibrate();
+          _vibrate();
+          _vibrate();
+        }
+           if (countdownValue == valueSHarOrange) {
+          _vibrateOrang();
+        
+        }
+     
       } else {
         _timer?.cancel();
       }
@@ -98,13 +109,23 @@ class CountdownTimerState extends State<CountdownTimer> {
     });
   }
 
+  Future<void> _vibrate() async {
+    if (await Vibration.hasVibrator() ?? false) {
+      Vibration.vibrate(duration: 300);
+    }
+  }
+  Future<void> _vibrateOrang() async {
+    if (await Vibration.hasVibrator() ?? false) {
+      Vibration.vibrate(duration: 600);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Text(
         "$countdownValue",
         style: TextStyle(
-          fontSize: 250,
+          fontSize: 150,
           color: countdownValue < valueSHarRed
               ? Colors.red
               : countdownValue < valueSHarOrange
@@ -117,7 +138,6 @@ class CountdownTimerState extends State<CountdownTimer> {
 }
 
 class CountdownTimer2 extends StatefulWidget {
-  //final bool isRunning;
 
   CountdownTimer2({Key? key}) : super(key: key);
 
@@ -126,7 +146,7 @@ class CountdownTimer2 extends StatefulWidget {
 }
 
 class CountdownTimer2State extends State<CountdownTimer2> {
-   Timer? _timer;
+  late Timer _timer;
   int countdownValue = 2 * 60; // seconds
   late int valueSHarMInu;
   StreamController<int> _controller = StreamController<int>();
@@ -156,13 +176,13 @@ class CountdownTimer2State extends State<CountdownTimer2> {
 
   @override
   void dispose() {
-    _timer?.cancel();
+    _timer.cancel();
     _controller.close();
     super.dispose();
   }
 
   void stopTimer() {
-    _timer?.cancel();
+    _timer.cancel();
   }
 
   void startTimer() {

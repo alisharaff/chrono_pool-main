@@ -4,11 +4,13 @@ import 'package:chrono_pool/ui/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../edit_player_name_widget.dart';
+import '../main.dart';
 import '../model/score.dart';
 import '../controller/settings_controller.dart';
 import '../components/applocal.dart';
-
+late SharedPreferences sharedPref ;
 enum PlayerNumber { UN, DEUX }
 
 class SettingsPage extends StatefulWidget {
@@ -47,12 +49,12 @@ class _SettingsPageState extends State<SettingsPage> {
           },
         ),
         title: Text(widget.title),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: () {},
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: const Icon(Icons.delete),
+        //     onPressed: () {},
+        //   ),
+      //  ],
       ),
       body: _currentIndex == 0
           ? SingleChildScrollView(
@@ -88,14 +90,15 @@ class _SettingsPageState extends State<SettingsPage> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
+                              RowSetting(
+                                   DataType.LAST_ALARM, set, "last_alarm" , false ),
                                 RowSetting(
-                                    DataType.ORANGE_ALARM, set, "orange_alarm"),
+                                    DataType.ORANGE_ALARM, set, "orange_alarm", false),
                                 RowSetting(
-                                    DataType.RED_ALARM, set, "red_alarm"),
+                                    DataType.RED_ALARM, set, "red_alarm" , false ),
+
                                 RowSetting(
-                                    DataType.LAST_ALARM, set, "last_alarm"),
-                                RowSetting(
-                                    DataType.EXTENTION, set, "extention"),
+                                    DataType.EXTENTION, set, "extention" , false),
                               ],
                             ),
                           ],
@@ -110,43 +113,16 @@ class _SettingsPageState extends State<SettingsPage> {
                         children: [
                           Text("${getLang(context, "time_minute")}",
                               style: Theme.of(context).textTheme.displaySmall),
-                          RowSetting(DataType.MATCH_TIME, set, "match_time"),
+                          RowSetting(DataType.MATCH_TIME, set, "match_time", true),
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Card(
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () =>
-                                    _pickImage(ImageSource.gallery),
-                                child: const Text('Choose a Photo'),
-                              ),
-                              FutureBuilder<Uint8List?>(
-                                future: _image?.readAsBytes(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData &&
-                                      snapshot.data != null) {
-                                    return Image.memory(snapshot.data!);
-                                  } else {
-                                    return const CircularProgressIndicator();
-                                  }
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+
                   ],
                 );
               }),
             )
-          : Login(),
+          :  Login() ,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {
@@ -161,7 +137,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.ac_unit),
-            label: 'Your account',
+            label: 'Account',
           ),
         ],
       ),
@@ -218,22 +194,17 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Future<void> _pickImage(ImageSource source) async {
-    final pickedImage = await ImagePicker().pickImage(source: source);
-    if (pickedImage != null) {
-      setState(() {
-        _image = XFile(pickedImage.path);
-      });
-    }
-  }
+
 }
 
 class RowSetting extends StatelessWidget {
   final DataType type;
   final SettingsController set;
   final String label;
+  final bool manageMatchTime ;
 
-  RowSetting(this.type, this.set, this.label);
+
+  RowSetting(this.type, this.set, this.label,this.manageMatchTime);
 
   @override
   Widget build(BuildContext context) {
@@ -245,7 +216,7 @@ class RowSetting extends StatelessWidget {
         const Spacer(),
         IconButton(
           onPressed: () {
-            set.decType(type);
+            set.decType(type ,manageMatchTime);
           },
           icon: const Icon(Icons.remove_circle),
         ),
@@ -258,7 +229,7 @@ class RowSetting extends StatelessWidget {
         ),
         IconButton(
           onPressed: () {
-            set.incType(type);
+            set.incType(type ,manageMatchTime );
           },
           icon: const Icon(Icons.add_circle),
         ),

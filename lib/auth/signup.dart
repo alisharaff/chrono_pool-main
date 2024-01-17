@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../components/applocal.dart';
 import '../components/crud.dart';
 import '../components/valid.dart';
 import '../constants/linksApi.dart';
@@ -74,21 +75,21 @@ class _SignUpState extends State<SignUp> {
                             //return  validInput(val!, 3, 20);
                           },
                           savecontroller: username,
-                          hint: "username",
+                          hint:  "${getLang(context, "username")}",
                         ),
                         CustomTextForm(
                           valid: (val) {
                             return validInput(val!, 5, 40);
                           },
                           savecontroller: email,
-                          hint: "email",
+                          hint:  "${getLang(context, "email")}",
                         ),
                         CustomTextForm(
                           valid: (val) {
                             return validInput(val!, 3, 50);
                           },
                           savecontroller: password,
-                          hint: "password",
+                          hint:"${getLang(context, "password")}",
                         ),
                         MaterialButton(
                           color: Colors.blue,
@@ -98,11 +99,12 @@ class _SignUpState extends State<SignUp> {
                           onPressed: () async {
                             await SignUp();
                           },
-                          child: const Text("SignUp"),
+                          child:  Text("${getLang(context, "signup")}"),
+
                         ),
                         Container(height: 10),
                         InkWell(
-                          child: const Text("Login"),
+                          child:  Text("${getLang(context, "signup")}"),
                           onTap: () {
                             Navigator.of(context).pushNamed("login");
                           },

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../components/applocal.dart';
+
 class Success extends StatefulWidget {
   const Success({super.key});
 
@@ -13,15 +15,15 @@ class _SuccessState extends State<Success> {
     return  Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [const Center(
-          child: Text("successed" , style: TextStyle(fontSize: 20),),
+        children: [ Center(
+          child: Text("${getLang(context, "successed")}" , style: TextStyle(fontSize: 20),),
         ),
           MaterialButton(
               textColor: Colors.white,
               color: Colors.blue,
               onPressed: () {
                 Navigator.of(context).pushNamedAndRemoveUntil("login", (route) => false);
-              } , child: const Text("Log in ")),
+              } , child:  Text("${getLang(context, "login")}")),
         ],
       ),
     );
