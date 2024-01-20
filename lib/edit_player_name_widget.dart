@@ -38,7 +38,7 @@ class EditPlayerName extends StatelessWidget {
                 await SharedPreferencesHelper.savePlayer2Name(
                     player2Controller.text);
               },
-              child: const Text('Save Names'),
+              child: Text("${getLang(context, "Save_names")}"),
             ),
           ],
         ),
