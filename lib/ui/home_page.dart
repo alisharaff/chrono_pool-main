@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        leading: const Icon(Icons.logo_dev),
+        leading: Image.asset('assets/logo.jpg'), // Replace 'logo_photo.png' with your actual image file
         title: Text(widget.title),
         actions: [
           IconButton(
@@ -73,10 +73,8 @@ class _MyHomePageState extends State<MyHomePage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) =>   CastScreen()),
+                MaterialPageRoute(builder: (context) => CastScreen()),
               );
-
-
             },
           ),
           IconButton(

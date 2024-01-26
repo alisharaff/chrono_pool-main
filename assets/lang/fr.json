@@ -33,5 +33,8 @@
 "from_camera" : "Depuis la camera",
 "important" : "Important",
 "please_add_the_photo" : "Merci d'ajouter la photo pour ce titre",
-"Save_names" : "Enregistrer les noms"
+"Save_names" : "Enregistrer les noms",
+"Cast_not_found" : "Aucun Chromecast trouvé",
+  "Add_photos" : "Ajouter des photos"
+
 }

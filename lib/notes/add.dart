@@ -62,7 +62,7 @@ class _AddNoteState extends State<AddNote> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Photos"),
+        title: Text("${getLang(context, "Add_photos")}"),
       ),
       body: isLoading == true
           ? Center(child: CircularProgressIndicator())

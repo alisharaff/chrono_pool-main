@@ -2,15 +2,28 @@ import 'package:cast/device.dart';
 import 'package:cast/discovery_service.dart';
 import 'package:cast/session.dart';
 import 'package:cast/session_manager.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CastScreen extends StatelessWidget {
-   CastScreen({super.key});
-   Future<List<CastDevice>>? _future;
+import '../components/applocal.dart';
+
+class CastScreen extends StatefulWidget {
+  CastScreen({Key? key}) : super(key: key);
+
+  @override
+  _CastScreenState createState() => _CastScreenState();
+}
+
+class _CastScreenState extends State<CastScreen> {
+  Future<List<CastDevice>>? _future;
+
+  @override
+  void initState() {
+    super.initState();
+    _startSearch();
+  }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Chromecast Devices'),
@@ -25,9 +38,7 @@ class CastScreen extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Center(
-            child: Text(
-              'Error: ${snapshot.error.toString()}',
-            ),
+            child: Text('Error: ${snapshot.error.toString()}'),
           );
         } else if (!snapshot.hasData) {
           return Center(
@@ -36,23 +47,16 @@ class CastScreen extends StatelessWidget {
         }
 
         if (snapshot.data!.isEmpty) {
-          return Column(
-            children: [
-              Center(
-                child: Text(
-                  'No Chromecast founded',
-                ),
-              ),
-            ],
+          return Center(
+            child: Text("${getLang(context, "Cast_not_found")}"),
           );
         }
 
-        return Column(
+        return ListView(
           children: snapshot.data!.map((device) {
             return ListTile(
               title: Text(device.name),
               onTap: () {
-                // _connectToYourApp(context, device);
                 _connectAndPlayMedia(context, device);
               },
             );
@@ -66,38 +70,8 @@ class CastScreen extends StatelessWidget {
     _future = CastDiscoveryService().search();
   }
 
-  Future<void> _connectToYourApp(BuildContext context, CastDevice object) async {
-    final session = await CastSessionManager().startSession(object);
-
-    session.stateStream.listen((state) {
-      if (state == CastSessionState.connected) {
-        final snackBar = SnackBar(content: Text('Connected'));
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-        _sendMessageToYourApp(session);
-      }
-    });
-
-    session.messageStream.listen((message) {
-      print('receive message: $message');
-    });
-
-    session.sendMessage(CastSession.kNamespaceReceiver, {
-      'type': 'LAUNCH',
-      'appId': 'Youtube', // set the appId of your app here
-    });
-  }
-
-  void _sendMessageToYourApp(CastSession session) {
-    print('_sendMessageToYourApp');
-
-    session.sendMessage('urn:x-cast:namespace-of-the-app', {
-      'type': 'sample',
-    });
-  }
-
-  Future<void> _connectAndPlayMedia(BuildContext context, CastDevice object) async {
-    final session = await CastSessionManager().startSession(object);
+  Future<void> _connectAndPlayMedia(BuildContext context, CastDevice device) async {
+    final session = await CastSessionManager().startSession(device);
 
     session.stateStream.listen((state) {
       if (state == CastSessionState.connected) {
@@ -130,16 +104,13 @@ class CastScreen extends StatelessWidget {
     print('_sendMessagePlayVideo');
 
     var message = {
-      // Here you can plug an URL to any mp4, webm, mp3 or jpg file with the proper contentType.
       'contentId': 'http://commondatastorage.googleapis.com/gtv-videos-bucket/big_buck_bunny_1080p.mp4',
       'contentType': 'video/mp4',
-      'streamType': 'BUFFERED', // or LIVE
-
-      // Title and cover displayed while buffering
+      'streamType': 'BUFFERED',
       'metadata': {
         'type': 0,
         'metadataType': 0,
-        'title': "Big Buck Bunny",
+        'title': 'Big Buck Bunny',
         'images': [
           {'url': 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg'}
         ]
