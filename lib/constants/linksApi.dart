@@ -1,6 +1,6 @@
-const String LinkServerName = "http://192.168.1.30/backend-project";
+const String LinkServerName = "http://192.168.1.19/backend-project";
 
-const String linkImageRoot = "http://192.168.1.30/backend-project/upload";
+const String linkImageRoot = "http://192.168.1.19/backend-project/upload";
 
 // Auth
 const String linkSignUp = "$LinkServerName/auth/signup.php";

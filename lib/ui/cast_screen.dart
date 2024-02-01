@@ -112,7 +112,7 @@ class _CastScreenState extends State<CastScreen> {
         'metadataType': 0,
         'title': 'Big Buck Bunny',
         'images': [
-          {'url': 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg'}
+          {'url': 'https://www.youtube.com/watch?v=yxif9Tj8fDE&t=43s'}
         ]
       }
     };

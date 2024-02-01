@@ -207,9 +207,9 @@ class _LoginState extends State<Login> {
                               InkWell(
                                 child: Text("${getLang(context, "Login")}"),
                                 onTap: () {
-setState(() {
-  isSignUp = false;
-});
+                                    setState(() {
+                                      isSignUp = false;
+                                    });
 
 
                                  // Navigator.of(context).pushNamed("login");

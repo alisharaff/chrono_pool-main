@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 
 import '../components/applocal.dart';
@@ -24,16 +27,25 @@ class _SignUpState extends State<SignUp> {
   TextEditingController password = TextEditingController();
   TextEditingController username = TextEditingController();
 
+  String hashPassword(String password) {
+    // Use SHA-256 for hashing the password
+    var bytes = utf8.encode(password);
+    var digest = sha256.convert(bytes);
+    return digest.toString();
+  }
+
   SignUp() async {
     // if (formstate.currentState!.validate()) {
     setState(() {
       isLoading = true;
     });
 
+    String hashedPassword = hashPassword(password.text);
+
     var response = await _crud.postRequest(linkSignUp, {
       "username": username.text,
       "email": email.text,
-      "password": password.text
+      "password": hashedPassword
     });
 
     isLoading = false;
@@ -104,7 +116,7 @@ class _SignUpState extends State<SignUp> {
                         ),
                         Container(height: 10),
                         InkWell(
-                          child:  Text("${getLang(context, "signup")}"),
+                          child:  Text("${getLang(context, "login")}"),
                           onTap: () {
                             Navigator.of(context).pushNamed("login");
                           },
